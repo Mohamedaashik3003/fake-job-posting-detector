@@ -14,3 +14,11 @@ https://www.kaggle.com/datasets/shivamb/real-or-fake-fake-jobposting-prediction
 Due to GitHub file size limitations, the dataset is not included in this
 repository. Users should download the dataset manually and place the CSV
 file inside the `data/` folder.
+
+## Day 2: Text Preprocessing
+Raw job description text was cleaned by:
+- Lowercasing
+- Removing punctuation
+- Removing stopwords
+
+A processed dataset was generated for future machine learning tasks.
