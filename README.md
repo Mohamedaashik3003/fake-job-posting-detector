@@ -22,3 +22,8 @@ Raw job description text was cleaned by:
 - Removing stopwords
 
 A processed dataset was generated for future machine learning tasks.
+
+## Day 3 – Feature Extraction
+TF-IDF is used to convert cleaned job description text into numerical
+features for machine learning models.
+
