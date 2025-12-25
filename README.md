@@ -27,3 +27,6 @@ A processed dataset was generated for future machine learning tasks.
 TF-IDF is used to convert cleaned job description text into numerical
 features for machine learning models.
 
+## Day 4 – Model Training
+Trained machine learning models such as Logistic Regression and
+Naive Bayes to classify fake and real job postings.
