@@ -30,3 +30,7 @@ features for machine learning models.
 ## Day 4 – Model Training
 Trained machine learning models such as Logistic Regression and
 Naive Bayes to classify fake and real job postings.
+
+## Day 5 – Explainability & Risk Scoring
+Implemented explanation logic to identify influential keywords and
+compute a risk score for fake job postings.
