@@ -34,3 +34,6 @@ Naive Bayes to classify fake and real job postings.
 ## Day 5 – Explainability & Risk Scoring
 Implemented explanation logic to identify influential keywords and
 compute a risk score for fake job postings.
+
+## Day 6 – Real-Time Web App
+Developed a Streamlit web interface to accept job description text, image URL, or image upload and display instant predictions with model confidence, risk percentage, and key influencing words.
