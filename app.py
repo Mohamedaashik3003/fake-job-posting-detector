@@ -4,6 +4,16 @@ import requests
 from io import BytesIO
 from PIL import Image
 import pytesseract
+from explain import explain_prediction
+
+# =============================
+# PAGE CONFIG
+# =============================
+st.set_page_config(
+    page_title="Fake Job Detector",
+    page_icon="🕵️",
+    layout="wide"
+)
 
 # =============================
 # TESSERACT PATH (Windows)
@@ -20,76 +30,106 @@ with open("models/tfidf_vectorizer.pkl", "rb") as f:
     vectorizer = pickle.load(f)
 
 # =============================
-# IMPORT EXPLAIN FUNCTION
-# =============================
-from explain import explain_prediction
-
-# =============================
-# OCR FUNCTION FOR IMAGE URL
+# OCR FUNCTION
 # =============================
 def extract_text_from_image_url(url):
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
         image = Image.open(BytesIO(response.content))
-        text = pytesseract.image_to_string(image)
-        return text
+        return pytesseract.image_to_string(image)
     except:
         return ""
 
 # =============================
-# STREAMLIT UI
+# HEADER
 # =============================
-st.title("Fake Job Posting Detector")
-st.write("Enter **job description text**, paste an **image URL**, or upload an **image**")
+st.title("🕵️ Fake Job Posting Detector")
+st.markdown(
+    "Detect **fake job postings** using AI. "
+    "You can provide **text**, **image URL**, or **upload an image**."
+)
 
-# ✅ INPUT HANDLING LIKE CODE 1
-user_input = st.text_area("Text or Image URL", height=200)
-uploaded_image = st.file_uploader("Optional: Upload Job Image", type=["png", "jpg", "jpeg"])
+st.divider()
 
 # =============================
-# PREDICT BUTTON
+# LAYOUT
 # =============================
-if st.button("Predict"):
-    final_text = ""
+left_col, right_col = st.columns(2)
 
-    # Priority 1: Uploaded Image
-    if uploaded_image is not None:
-        try:
-            final_text = pytesseract.image_to_string(Image.open(uploaded_image))
-            st.subheader("Extracted Text from Image")
-            st.write(final_text)
-        except:
-            st.error("Unable to read uploaded image")
+# =============================
+# INPUT SECTION
+# =============================
+with left_col:
+    st.subheader("📥 Input")
 
-    # Priority 2: Text or Image URL
-    elif user_input.strip() != "":
-        if user_input.lower().startswith(("http://", "https://")):
-            extracted_text = extract_text_from_image_url(user_input)
-            if extracted_text == "":
-                st.error("Unable to read image from URL")
+    user_input = st.text_area(
+        "Text or Image URL",
+        height=200,
+        placeholder="Paste job description OR image URL here"
+    )
+
+    uploaded_image = st.file_uploader(
+        "Optional: Upload job image",
+        type=["png", "jpg", "jpeg"]
+    )
+
+    predict_btn = st.button("🔍 Predict")
+
+# =============================
+# PREDICTION LOGIC
+# =============================
+with right_col:
+    st.subheader("📊 Result")
+
+    if predict_btn:
+        final_text = ""
+
+        # Priority 1: Uploaded image
+        if uploaded_image is not None:
+            try:
+                final_text = pytesseract.image_to_string(
+                    Image.open(uploaded_image)
+                )
+                with st.expander("📄 Extracted Text (Uploaded Image)"):
+                    st.write(final_text)
+            except:
+                st.error("Unable to read uploaded image")
+
+        # Priority 2: Text or image URL
+        elif user_input.strip() != "":
+            if user_input.lower().startswith(("http://", "https://")):
+                extracted_text = extract_text_from_image_url(user_input)
+                if extracted_text == "":
+                    st.error("Unable to read image from URL")
+                else:
+                    final_text = extracted_text
+                    with st.expander("📄 Extracted Text (Image URL)"):
+                        st.write(extracted_text)
             else:
-                st.subheader("Extracted Text from Image URL")
-                st.write(extracted_text)
-                final_text = extracted_text
+                final_text = user_input
+
         else:
-            final_text = user_input
+            st.warning("Please enter text, image URL, or upload an image")
 
-    else:
-        st.warning("Please enter text, image URL, or upload an image")
+        # =============================
+        # MODEL OUTPUT
+        # =============================
+        if final_text.strip() != "":
+            result = explain_prediction(final_text, model, vectorizer)
 
-    # =============================
-    # MODEL PREDICTION
-    # =============================
-    if final_text.strip() != "":
-        result = explain_prediction(final_text, model, vectorizer)
+            prediction = result["prediction"]
+            confidence = result["model_confidence"]
+            risk = result["risk_percentage"]
 
-        st.subheader("Prediction Result")
-        st.write(f"**Prediction:** {result['prediction']}")
-        st.write(f"**Model Confidence:** {result['model_confidence']}%")
-        st.write(f"**Risk Percentage:** {result['risk_percentage']}%")
+            if prediction == "Fake":
+                st.error(f"🚨 Prediction: FAKE JOB")
+            else:
+                st.success(f"✅ Prediction: REAL JOB")
 
-        st.subheader("Key Influencing Words")
-        for word in result["keywords"]:
-            st.write(f"- {word}")
+            st.metric("Model Confidence", f"{confidence}%")
+            st.metric("Risk Percentage", f"{risk}%")
 
+            st.subheader("🔑 Key Influencing Words")
+            for word in result["keywords"]:
+                st.write(f"• {word}")
