@@ -1,5 +1,7 @@
+streamlit
 pandas
 numpy
 scikit-learn
-nltk
-flask
+Pillow
+pytesseract
+requests
