@@ -37,3 +37,10 @@ compute a risk score for fake job postings.
 
 ## Day 6 – Real-Time Web App
 Developed a Streamlit web interface to accept job description text, image URL, or image upload and display instant predictions with model confidence, risk percentage, and key influencing words.
+
+## Day 7 – Automatic Reporting System
+
+- Implemented automatic job analysis report generation
+- Report includes prediction result, fake risk percentage, and model confidence
+- Supports text, image, and image URL inputs
+- Added downloadable report feature
