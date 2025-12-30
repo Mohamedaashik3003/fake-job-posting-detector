@@ -44,3 +44,32 @@ Developed a Streamlit web interface to accept job description text, image URL, o
 - Report includes prediction result, fake risk percentage, and model confidence
 - Supports text, image, and image URL inputs
 - Added downloadable report feature
+
+## 📊 Project Results
+
+### 🔹 Streamlit Application Interface
+![App Home](screenshots/result_home.png)
+
+### 🔹 Real Job Posting Prediction
+![Real Job](screenshots/real_job_result.png)
+
+**Prediction Result:** Real Job  
+**Risk Percentage:** Low (0–10%)
+
+---
+
+### 🔹 Fake Job Posting Prediction
+![Fake Job](screenshots/fake_job_result.png)
+
+**Prediction Result:** Fake Job  
+**Risk Percentage:** High (Above 60%)
+
+---
+
+### 🔹 Automatic Analysis Report
+![Report](screenshots/Fake_Job_Analysis_Report.txt)
+
+The system automatically generates a detailed analysis report including:
+- Risk percentage of being fake
+- Key suspicious indicators
+- Model prediction confidence
