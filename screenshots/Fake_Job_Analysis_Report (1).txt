@@ -1,0 +1,58 @@
+
+FAKE JOB POSTING DETECTOR – AUTOMATIC ANALYSIS REPORT
+
+Job Posting Analysis Report
+
+Job Title: work from home - easy money
+Platform Source: Text / Image / URL
+Date of Analysis: 30-12-2025
+
+Prediction Result
+
+Job Authenticity Status:
+Fake Job
+
+Risk Percentage:
+56.42% probability of being Fake
+
+Model Confidence:
+The model is 56.42% confident in this prediction.
+
+Summary
+
+This job posting was analyzed using a machine learning–based Fake Job Posting Detector.
+The system examined the job description text obtained from user input and identified
+patterns commonly associated with fraudulent job advertisements.
+
+Key Indicators Identified
+- work home
+- home
+- earn
+- required
+- work
+
+Model Details
+
+Text Processing:
+Stopword removal, punctuation removal, lowercase conversion
+
+Feature Extraction:
+TF-IDF Vectorization
+
+Model Used:
+Random Forest Classifier
+
+Prediction Type:
+Probability-based classification
+
+Risk Interpretation
+
+0–10% → Very Low Risk (Highly Likely Real Job)
+11–30% → Low Risk (Likely Real Job)
+31–60% → Medium Risk (Caution Advised)
+61–100% → High Risk (Likely Fake Job)
+
+Conclusion
+
+Based on the analysis, users are advised to verify company details, avoid sharing
+personal information, and proceed cautiously if the risk percentage is high.
